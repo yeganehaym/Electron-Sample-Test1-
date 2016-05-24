@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<script src="./jquery.min.js"></script>
+    <meta charset="utf-8">
+
+    <title></title>
+  </head>
+  <body>
+    
+    Fie Content:<br/>
+    <textarea id="TextFile" cols="60" rows="30"></textarea>
+
+
+    <script>
+
+    const {ipcRenderer} = require('electron');
+    var fs=require('fs');
+
+
+    ipcRenderer.on('openFile', (event, arg) => {
+      var content=  fs.readFileSync(String(arg),'utf8');
+      document.getElementById("TextFile").value=content;
+    });
+
+
+    ipcRenderer.on('saveFile', (event, arg) =>{
+      var content=document.getElementById("TextFile").value;
+      fs.writeFileSync(String(arg),content,'utf8');
+      alert('ذخیره شد');
+    });
+
+    </script>
+
+  </body>
+</html>
